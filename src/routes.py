@@ -11,6 +11,7 @@ from handlers import *
 
 _routes = [
     ('/', MainPage),
+    ('/admin/region', RegionList),
     ('/sign', Guestbook)
     #RedirectRoute('/login/', LoginHandler, name='login', strict_slash=True),
     #RedirectRoute('/logout/', LogoutHandler, name='logout', strict_slash=True),

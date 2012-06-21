@@ -1,8 +1,13 @@
 <html>
   <head>
-    <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+    <LINK rel="stylesheet" href="css/main.css" type="text/css">
+    <LINK rel="stylesheet" href="bootstrap/css/bootstrap.min.css" type="text/css">
   </head>
   <body>
+    <ul class="folders">
+    	<li></li>
+	</ul>
+    
     {% for greeting in greetings %}
       {% if greeting.author %}
         <b>{{ greeting.author.nickname() }}</b> wrote:
@@ -12,9 +17,9 @@
       <blockquote>{{ greeting.content|escape }}</blockquote>
     {% endfor %}
 
-    <form action="/sign" method="post">
+    <form action="/sign" method="post" class='well'>
       <div><textarea name="content" rows="3" cols="60"></textarea></div>
-      <div><input type="submit" value="Sign Guestbook"></div>
+      <div><input class= 'btn' type="submit" value="Sign Guestbook"></div>
     </form>
 
     <a href="{{ url }}">{{ url_linktext }}</a>
