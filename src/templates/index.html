@@ -1,13 +1,6 @@
-<html>
-  <head>
-    <LINK rel="stylesheet" href="css/main.css" type="text/css">
-    <LINK rel="stylesheet" href="bootstrap/css/bootstrap.min.css" type="text/css">
-  </head>
-  <body>
-    <ul class="folders">
-    	<li></li>
-	</ul>
-    
+{% extends "base.html" %}
+
+{% block content %}    
     {% for greeting in greetings %}
       {% if greeting.author %}
         <b>{{ greeting.author.nickname() }}</b> wrote:
@@ -24,5 +17,4 @@
 
     <a href="{{ url }}">{{ url_linktext }}</a>
 
-  </body>
-</html>
+{% endblock %}

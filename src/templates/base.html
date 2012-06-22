@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <title>{% block title %}Home Before Dark{% endblock %}</title>  
+    <LINK rel="stylesheet" href="/css/main.css" type="text/css">
+    <LINK rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css">
+  </head>
+  <body>
+  	{% block menubar %}
+    <ul class="nav nav-pills">
+    	<li><a href = '/'>Home</a></li>
+    	<li><a href = '/admin/regions'>regions</a></li>
+    	<li><a href = '/admin/towns'>towns</a></li>
+	</ul>
+    {% endblock %}
+    
+    {% block content %}
+    {% endblock %}
+    
+  </body>
+</html>

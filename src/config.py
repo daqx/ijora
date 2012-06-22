@@ -9,4 +9,4 @@ webapp2_config['webapp2_extras.sessions'] = {
 }
 
 jinja_environment = jinja2.Environment(
-    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
+    loader=jinja2.FileSystemLoader('templates'))

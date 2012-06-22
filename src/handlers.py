@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import webapp2
 from webapp2_extras import auth
 from webapp2_extras import sessions
@@ -6,7 +7,9 @@ from webapp2_extras.auth import InvalidPasswordError
 
 from models import *
 from config import *
+from forms import *
 from google.appengine.api import users
+import forms
 
 
 def guestbook_key(guestbook_name=None):
@@ -53,32 +56,30 @@ class MainPage(webapp2.RequestHandler):
             'url_linktext': url_linktext,
         }
 
-        template = jinja_environment.get_template('templates/index.html')
+        template = jinja_environment.get_template('index.html')
         self.response.out.write(template.render(template_values))
 
 
 class RegionList(webapp2.RequestHandler):
-    def get(self):
-        guestbook_name=self.request.get('guestbook_name')
-        greetings_query = Greeting.all().ancestor(
-            guestbook_key(guestbook_name)).order('-date')
-        greetings = greetings_query.fetch(10)
-
-        if users.get_current_user():
-            url = users.create_logout_url(self.request.uri)
-            url_linktext = 'Logout'
-        else:
-            url = users.create_login_url(self.request.uri)
-            url_linktext = 'Login'
-
+    
+    def get(self):        
+        regions = Region.all()
+        add_url = 'add'
         template_values = {
-            'greetings': greetings,
-            'url': url,
-            'url_linktext': url_linktext,
+            'regions': regions,            
+            'url_linktext': add_url,
         }
 
-        template = jinja_environment.get_template('templates/index.html')
+        template = jinja_environment.get_template('region_list.html')
         self.response.out.write(template.render(template_values))
+        
+class RegionForm(webapp2.RequestHandler):
+    
+    def get(self):       
+        
+        form = forms.RegionForm
+        template = jinja_environment.get_template('region_form.html')
+        self.response.out.write(template.render({'form':form}))
 
 
 class Guestbook(webapp2.RequestHandler):

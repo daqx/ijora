@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
 from webapp2_extras.routes import RedirectRoute
 from handlers import *
+import handlers
+
 #from web.handlers import LoginHandler
 #from web.handlers import LogoutHandler
 #from web.handlers import SecureRequestHandler
@@ -10,9 +13,10 @@ from handlers import *
 # RedirectRoute: http://webapp-improved.appspot.com/api/webapp2_extras/routes.html#webapp2_extras.routes.RedirectRoute
 
 _routes = [
-    ('/', MainPage),
-    ('/admin/region', RegionList),
-    ('/sign', Guestbook)
+    ('/', MainPage),    
+    ('/sign', Guestbook),
+    ('/admin/regions', RegionList),
+    ('/admin/regions/add', handlers.RegionForm)
     #RedirectRoute('/login/', LoginHandler, name='login', strict_slash=True),
     #RedirectRoute('/logout/', LogoutHandler, name='logout', strict_slash=True),
     #RedirectRoute('/secure/', SecureRequestHandler, name='secure', strict_slash=True),
