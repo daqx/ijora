@@ -16,9 +16,12 @@ class Region(db.Model):
     name = db.StringProperty()
     city = db.ReferenceProperty()
     
+    def __repr__(self):
+        return unicode(self.name)
+    
 
 class Town(db.Model):
     name    = db.StringProperty()
     region  = db.ReferenceProperty(Region)
-    type_name = db.StringProperty(required=True, choices=set([u"г.", u"район", u"с."]))
+    type_name = db.StringProperty(choices=set([u"г.", u"район", u"с."]))
     

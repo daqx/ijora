@@ -1,13 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}   
-    <form method="post" action="{% if action %}{{ action }}{% else %}/admin/region/create{% endif %}">
+    <form method="post" action="{% if action %}{{ action }}{% else %}/admin/regions/create{% endif %}">
 	<table>
-	{{ form.as_table }}
+	{% for field in form %}
+    <tr>
+        <th>{{ field.label }}</th>
+        <td>{{ field }}</td>
+    </tr>
+	{% endfor %}
 	<tr>
 	    <td colspan="2">
-	        <input type="submit" name="submit" value="Submit">
-	        <input type="submit" name="submit" value="Preview">
+	        <input class="btn" type="submit" name="submit" value="Submit">
+	        
 	    </td>
 	</tr>
 	</table>

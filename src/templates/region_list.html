@@ -2,10 +2,11 @@
 
 {% block content %}   
 <h3>List of regions </h3>
-	<a class="btn" href="{{ url_linktext }}">{{ url_linktext }}</a>
+	<a class="btn" href="regions/{{ url_linktext }}">{{ url_linktext }}</a>
+	<br/>
 	{% for r in regions %}
       
-        <b>{{ r.name() }}</b>
+        <b>{{ r.name }}</b><br/>
       
     {% endfor %}
 

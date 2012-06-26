@@ -12,6 +12,21 @@ from google.appengine.api import users
 import forms
 
 
+class BaseHandler(webapp2.RequestHandler):
+
+    @webapp2.cached_property
+    def jinja2(self):
+        return jinja2.get_jinja2(app=self.app)
+
+    def render_template(
+        self,
+        filename,
+        template_values,
+        **template_args
+        ):
+        template = jinja_environment.get_template(filename)
+        self.response.out.write(template.render(template_values))
+
 def guestbook_key(guestbook_name=None):
   """Constructs a Datastore key for a Guestbook entity with guestbook_name."""
   return db.Key.from_path('Guestbook', guestbook_name or 'default_guestbook')
@@ -36,7 +51,7 @@ def user_required(handler):
 
     return check_login
 
-class MainPage(webapp2.RequestHandler):
+class MainPage(BaseHandler):
     def get(self):
         guestbook_name=self.request.get('guestbook_name')
         greetings_query = Greeting.all().ancestor(
@@ -56,14 +71,15 @@ class MainPage(webapp2.RequestHandler):
             'url_linktext': url_linktext,
         }
 
-        template = jinja_environment.get_template('index.html')
-        self.response.out.write(template.render(template_values))
+        #template = jinja_environment.get_template('index.html')
+        self.render_template('index.html', template_values)
 
 
 class RegionList(webapp2.RequestHandler):
     
     def get(self):        
         regions = Region.all()
+        #regions = []
         add_url = 'add'
         template_values = {
             'regions': regions,            
@@ -71,16 +87,83 @@ class RegionList(webapp2.RequestHandler):
         }
 
         template = jinja_environment.get_template('region_list.html')
-        self.response.out.write(template.render(template_values))
+        self.response.write(template.render(template_values))
         
 class RegionForm(webapp2.RequestHandler):
     
-    def get(self):       
-        
-        form = forms.RegionForm
+    def get(self):        
+        form = forms.RegionForm()
         template = jinja_environment.get_template('region_form.html')
         self.response.out.write(template.render({'form':form}))
+    
+    def post(self):
+        r = Region()
+        r.name = self.request.POST.get('name')
+        r.put()
+        self.redirect('/admin/region/')
 
+class TownList(BaseHandler):
+    
+    def get(self):        
+        towns = Town.all()
+        #regions = []
+        add_url = 'add'
+        template_values = {
+            'towns': towns,            
+            'url_linktext': add_url,
+        }
+
+        template = jinja_environment.get_template('town_list.html')
+        self.render_template('town_list.html',template_values)
+        
+class TownForm(BaseHandler):
+    
+    def get(self):        
+        form = forms.TownForm()
+        
+        self.render_template('town_form.html',{'form':form})
+    
+    def post(self):
+        r = Town()
+        r.name = self.request.POST.get('name')
+        r.type_name = self.request.POST.get('type_name')
+        reg = db.get(self.request.POST.get('region'))
+        r.region = reg
+        r.put()
+        self.redirect('/admin/towns')
+
+
+class EditTown(BaseHandler):
+    
+    def get(self, id_):        
+        form = forms.TownForm()
+        iden = int(id_)
+        town = db.get(db.Key.from_path('Town', iden))
+        form.name.data = town.name        
+        form.region.data = town.region
+        form.type_name.data = town.type_name
+        values_ = {'form':form,'action': self.request.url,'town':town, 'del_url':''}
+        template = jinja_environment.get_template('town_form.html')
+        self.response.out.write(template.render())
+    
+    def post(self, id_):
+        iden = int(id_)
+        r = db.get(db.Key.from_path('Town', iden))
+        r.name = self.request.POST.get('name')
+        r.type_name = self.request.POST.get('type_name')
+        reg = db.get(self.request.POST.get('region'))
+        r.region = reg
+        r.put()
+        self.redirect('/admin/towns')
+
+class DeleteTown(BaseHandler):
+    
+    def get(self, id_):        
+        form = forms.TownForm()
+        iden = int(id_)
+        town = db.get(db.Key.from_path('Town', iden))
+        db.delete(town)
+        self.redirect('/admin/towns')
 
 class Guestbook(webapp2.RequestHandler):
   def post(self):

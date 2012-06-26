@@ -16,7 +16,13 @@ _routes = [
     ('/', MainPage),    
     ('/sign', Guestbook),
     ('/admin/regions', RegionList),
-    ('/admin/regions/add', handlers.RegionForm)
+    ('/admin/regions/add', handlers.RegionForm),
+    ('/admin/regions/create', handlers.RegionForm),
+    ('/admin/towns', TownList),
+    ('/admin/towns/add', handlers.TownForm),
+    ('/admin/towns/edit/(\d+)$', handlers.EditTown),
+    ('/admin/towns/edit/(\d+)/delete', handlers.EditTown),
+    
     #RedirectRoute('/login/', LoginHandler, name='login', strict_slash=True),
     #RedirectRoute('/logout/', LogoutHandler, name='logout', strict_slash=True),
     #RedirectRoute('/secure/', SecureRequestHandler, name='secure', strict_slash=True),
