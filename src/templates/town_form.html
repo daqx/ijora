@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}   
+    <form method="post" action="{% if action %}{{ action }}{% else %}/admin/towns/add{% endif %}" class="well">
+	<table>
+	{% for field in form %}
+    <tr>
+        <th>{{ field.label }}</th>
+        <td>{{ field }}</td>
+    </tr>
+	{% endfor %}
+	<tr>
+	    <td colspan="2">
+	    	<a class="btn btn-danger" href="{{ action }}/delete"><i class="icon-trash icon-white"></i> Del</a>
+	        <input class="btn btn-primary" type="submit" name="submit" value="Submit">
+	        
+	    </td>
+	</tr>
+	</table>
+	</form>
+
+{% endblock %}

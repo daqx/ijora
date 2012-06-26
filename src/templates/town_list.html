@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}   
+<h3>List of towns </h3>
+	<a class="btn" href="towns/{{ url_linktext }}">{{ url_linktext }}</a>
+	<br/><br/>
+	<table class='table table-bordered' style="width: 500px">
+	  <thead>
+		  <tr>
+		    <th>Name</th>
+		    <th></th>
+		  </tr>
+	  </thead>
+		
+	{% for r in towns %}
+      
+	  <tr>
+	    <td><a href ="towns/edit/{{ r.key().id() }}">{{ r.name }}</a></td>
+	    <td></td>
+	  </tr>
+        
+      
+    {% endfor %}
+
+	</table>
+
+{% endblock %}
