@@ -102,6 +102,35 @@ class RegionForm(webapp2.RequestHandler):
         r.put()
         self.redirect('/admin/region/')
 
+class EditRegion(BaseHandler):
+    
+    def get(self, region_id , act = ''):        
+        if act == 'delete':
+            iden = int(region_id)
+            region = db.get(db.Key.from_path('Region', iden))
+            db.delete(region)
+            self.redirect('/admin/regions')
+        else:        
+            form = forms.RegionForm()
+            iden = int(region_id)
+            region = db.get(db.Key.from_path('Region', iden))
+            form.name.data = region.name        
+            form.city.data = region.city
+            
+            values_ = {'form':form,'action': self.request.url,'region':region, 'del_url':''}        
+            self.render_template('region_form.html', values_)
+    
+    def post(self, region_id, act = ''):
+        iden = int(region_id)
+        r = db.get(db.Key.from_path('Region', iden))
+        r.name = self.request.POST.get('name')
+        #r.city = self.request.POST.get('city')
+        city = db.get(db.Key.from_path('Town',int(self.request.POST.get('city'))))
+        r.city = city
+        r.put()
+        self.redirect('/admin/regions')
+
+
 class TownList(BaseHandler):
     
     def get(self):        
@@ -135,19 +164,24 @@ class TownForm(BaseHandler):
 
 class EditTown(BaseHandler):
     
-    def get(self, id_):        
-        form = forms.TownForm()
-        iden = int(id_)
-        town = db.get(db.Key.from_path('Town', iden))
-        form.name.data = town.name        
-        form.region.data = town.region
-        form.type_name.data = town.type_name
-        values_ = {'form':form,'action': self.request.url,'town':town, 'del_url':''}
-        template = jinja_environment.get_template('town_form.html')
-        self.response.out.write(template.render())
+    def get(self, town_id , act = ''):        
+        if act == 'delete':
+            iden = int(town_id)
+            town = db.get(db.Key.from_path('Town', iden))
+            db.delete(town)
+            self.redirect('/admin/towns')
+        else:        
+            form = forms.TownForm()
+            iden = int(town_id)
+            town = db.get(db.Key.from_path('Town', iden))
+            form.name.data = town.name        
+            form.region.data = town.region
+            form.type_name.data = town.type_name
+            values_ = {'form':form,'action': self.request.url,'town':town, 'del_url':''}        
+            self.render_template('town_form.html', values_)
     
-    def post(self, id_):
-        iden = int(id_)
+    def post(self, town_id, act = ''):
+        iden = int(town_id)
         r = db.get(db.Key.from_path('Town', iden))
         r.name = self.request.POST.get('name')
         r.type_name = self.request.POST.get('type_name')

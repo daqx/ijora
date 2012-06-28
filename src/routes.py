@@ -13,15 +13,18 @@ import handlers
 # RedirectRoute: http://webapp-improved.appspot.com/api/webapp2_extras/routes.html#webapp2_extras.routes.RedirectRoute
 
 _routes = [
-    ('/', MainPage),    
-    ('/sign', Guestbook),
-    ('/admin/regions', RegionList),
-    ('/admin/regions/add', handlers.RegionForm),
-    ('/admin/regions/create', handlers.RegionForm),
-    ('/admin/towns', TownList),
-    ('/admin/towns/add', handlers.TownForm),
-    ('/admin/towns/edit/(\d+)$', handlers.EditTown),
-    ('/admin/towns/edit/(\d+)/delete', handlers.EditTown),
+    RedirectRoute('/', MainPage),    
+    RedirectRoute('/sign', Guestbook),
+    RedirectRoute('/admin/regions', RegionList),
+    RedirectRoute('/admin/regions/add', handlers.RegionForm),    
+    RedirectRoute('/admin/regions/edit/<region_id>', handlers.EditRegion),
+    RedirectRoute('/admin/regions/edit/<region_id>/<act>', handlers.EditRegion),
+    RedirectRoute('/admin/towns', TownList),
+    RedirectRoute('/admin/towns/add', handlers.TownForm),
+    RedirectRoute('/admin/towns/edit/<town_id>', handlers.EditTown),
+    RedirectRoute('/admin/towns/edit/<town_id>/<act>', handlers.EditTown),
+    
+    #RedirectRoute('/admin/towns/edit/(\d+)/delete', handlers.EditTown),
     
     #RedirectRoute('/login/', LoginHandler, name='login', strict_slash=True),
     #RedirectRoute('/logout/', LogoutHandler, name='logout', strict_slash=True),

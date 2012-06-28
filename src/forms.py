@@ -15,7 +15,7 @@ class RegionForm(Form):
     _type_list = [] 
     for type in Town.all(): 
         _type_list.append((type.key().id(),type.name)) 
-    city = SelectField(u'Type of entry', choices =_type_list, coerce=int) 
+    city = SelectField(u'City name', choices =_type_list, coerce=int) 
     
 TownForm = model_form(Town)
     
