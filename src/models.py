@@ -25,3 +25,17 @@ class Town(db.Model):
     region  = db.ReferenceProperty(Region)
     type_name = db.StringProperty(choices=set([u"г.", u"район", u"с."]))
     
+
+class Account(db.Model):
+    """A user's account."""
+    email = db.EmailProperty(required=True)
+    first_name = db.StringProperty()
+    last_name = db.StringProperty()
+    oauth_token = db.StringProperty()
+
+    @property
+    def name(self):
+        return u'%s %s' % (self.first_name, self.last_name)
+
+    def __unicode__(self):
+       return self.name
