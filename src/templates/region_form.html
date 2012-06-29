@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}   
-    <form class="well" method="post" action="{% if action %}{{ action }}{% else %}/admin/regions/create{% endif %}">
+    <form class="well" method="post" action="{% if action %}{{ action }}{% else %}/admin/regions/add{% endif %}">
 	<table>
 	{% for field in form %}
     <tr>

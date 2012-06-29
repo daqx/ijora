@@ -100,7 +100,7 @@ class RegionForm(webapp2.RequestHandler):
         r = Region()
         r.name = self.request.POST.get('name')
         r.put()
-        self.redirect('/admin/region/')
+        self.redirect('/admin/regions')
 
 class EditRegion(BaseHandler):
     
@@ -156,8 +156,11 @@ class TownForm(BaseHandler):
         r = Town()
         r.name = self.request.POST.get('name')
         r.type_name = self.request.POST.get('type_name')
-        reg = db.get(self.request.POST.get('region'))
-        r.region = reg
+        try:
+            reg = db.get(self.request.POST.get('region'))
+            r.region = reg
+        except Exception, e:
+            pass
         r.put()
         self.redirect('/admin/towns')
 
